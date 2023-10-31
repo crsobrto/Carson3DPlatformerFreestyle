@@ -40,7 +40,11 @@ public class PlayerController : MonoBehaviour
         */
 
         // Allow the player to move on the x and z axes and jump smoothly on the y axis
-        moveDirection = new Vector3(Input.GetAxis("Horizontal") * speed, moveDirection.y, Input.GetAxis("Vertical") * speed);
+        //moveDirection = new Vector3(Input.GetAxis("Horizontal") * speed, moveDirection.y, Input.GetAxis("Vertical") * speed);
+        float yStore = moveDirection.y; // Store the player's current y-position
+        moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
+        moveDirection = moveDirection.normalized * speed; // Prevents the player from gaining speed by moving diagonally
+        moveDirection.y = yStore; // Restore the player's y-position to fix gravity issues
 
         // If the player is currently on the ground
         if (playerController.isGrounded)
@@ -52,7 +56,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                moveDirection.y = 0;
+                moveDirection.y = 0f; // Prevents gravity from continually building up as the player is grounded
             }
         }
 
