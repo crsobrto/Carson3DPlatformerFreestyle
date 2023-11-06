@@ -718,7 +718,10 @@ MonoBehaviour:
   pivot: {fileID: 1510291184}
   offset: {x: 0, y: 5.12, z: 4.94}
   useOffsetValues: 0
+  invertY: 0
   rotationSpeed: 5
+  maxViewAngle: 65
+  minViewAngle: -60
 --- !u!1001 &1064742145
 PrefabInstance:
   m_ObjectHideFlags: 0
