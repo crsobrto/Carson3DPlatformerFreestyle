@@ -10,8 +10,11 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField] private Vector3 offset;
 
     public bool useOffsetValues;
+    public bool invertY = false; // Used to invert the camera controls on the y-axis
 
     public float rotationSpeed; // How fast the camera will rotate around the player
+    public float maxViewAngle; // How far the camera can be above the player
+    public float minViewAngle; // How far the camera can be below the player
 
     //[SerializeField] private Vector3 offset = new Vector3(0f, 5.12f, 4.94f);
 
@@ -38,7 +41,26 @@ public class FollowPlayer : MonoBehaviour
 
         // Rotate the pivot about the x-axis by getting the mouse's y-position
         float vertical = Input.GetAxis("Mouse Y") * rotationSpeed;
-        pivot.Rotate(-vertical, 0, 0); // -vertical inverts the camera controls
+        if (invertY) // If the player wants the camera controls inverted
+        {
+            pivot.Rotate(-vertical, 0, 0);
+        }
+        else
+        {
+            pivot.Rotate(vertical, 0, 0);
+        }
+
+        // Limit the camera's up rotation
+        if (pivot.rotation.eulerAngles.x > maxViewAngle && pivot.rotation.eulerAngles.x < 180f)
+        {
+            pivot.rotation = Quaternion.Euler(maxViewAngle, 0, 0);
+        }
+
+        // Limit the camera's down rotation
+        if (pivot.rotation.eulerAngles.x > 180f && pivot.rotation.eulerAngles.x < 360f + minViewAngle) // "minViewAngle" is negative
+        {
+            pivot.rotation = Quaternion.Euler(360f + minViewAngle, 0, 0);
+        }
 
         // Move the camera based on the target's or the pivot's current rotation & the original offset
         float wantedYAngle = target.eulerAngles.y;
