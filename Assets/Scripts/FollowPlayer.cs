@@ -27,7 +27,8 @@ public class FollowPlayer : MonoBehaviour
         }
 
         pivot.transform.position = target.transform.position; // Set the pivot's location to the target's location
-        pivot.transform.parent = target.transform; // Make the pivot a child of the player so it will continually move with the player
+        //pivot.transform.parent = target.transform; // Make the pivot a child of the player so it will continually move with the player
+        pivot.transform.parent = null; // The pivot is not a child object of any object
 
         // Lock the cursor to the center of view and hide it from the player
         Cursor.lockState = CursorLockMode.Locked; // Press Escape to bring the cursor back in the Unity Editor
@@ -35,9 +36,11 @@ public class FollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
+        pivot.transform.position = target.transform.position; // The pivot will always move with the player
+
         // Rotate the target about the y-axis by getting the mouse's x-position
         float horizontal = Input.GetAxis("Mouse X") * rotationSpeed;
-        target.Rotate(0, horizontal, 0);
+        pivot.Rotate(0, horizontal, 0);
 
         // Rotate the pivot about the x-axis by getting the mouse's y-position
         float vertical = Input.GetAxis("Mouse Y") * rotationSpeed;
@@ -51,19 +54,19 @@ public class FollowPlayer : MonoBehaviour
         }
 
         // Limit the camera's up rotation
-        if (pivot.rotation.eulerAngles.x > maxViewAngle && pivot.rotation.eulerAngles.x < 180f)
+        if (pivot.rotation.eulerAngles.x > maxViewAngle && pivot.rotation.eulerAngles.x < 180.0f)
         {
-            pivot.rotation = Quaternion.Euler(maxViewAngle, 0, 0);
+            pivot.rotation = Quaternion.Euler(maxViewAngle, pivot.eulerAngles.y, 0.0f);
         }
 
         // Limit the camera's down rotation
-        if (pivot.rotation.eulerAngles.x > 180f && pivot.rotation.eulerAngles.x < 360f + minViewAngle) // "minViewAngle" is negative
+        if (pivot.rotation.eulerAngles.x > 180.0f && pivot.rotation.eulerAngles.x < 360.0f + minViewAngle) // "minViewAngle" is negative
         {
-            pivot.rotation = Quaternion.Euler(360f + minViewAngle, 0, 0);
+            pivot.rotation = Quaternion.Euler(360.0f + minViewAngle, pivot.eulerAngles.y, 0.0f);
         }
 
-        // Move the camera based on the target's or the pivot's current rotation & the original offset
-        float wantedYAngle = target.eulerAngles.y;
+        // Move the camera based on the pivot's current rotation & the original offset
+        float wantedYAngle = pivot.eulerAngles.y;
         float wantedXAngle = pivot.eulerAngles.x;
         Quaternion rotation = Quaternion.Euler(wantedXAngle, wantedYAngle, 0);// eulerAngles is a Vector3 and is used instead of Quaternion Angles
         transform.position = target.position - (rotation * offset);

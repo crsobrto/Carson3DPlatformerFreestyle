@@ -9,10 +9,15 @@ public class PlayerController : MonoBehaviour
     public CharacterController playerController;
 
     public float speed; // Movement speed
+    public float rotateSpeed; // How fast the player will rotate
     public float jumpForce;
     public float gravityModifier;
 
+    public GameObject playerModel;
+
     public Animator anim;
+
+    public Transform pivot;
     //public bool isOnGround = false;
 
     private Vector3 moveDirection;
@@ -82,6 +87,14 @@ public class PlayerController : MonoBehaviour
             }
         }
         */
+
+        // Rotate the player in different directions based on which direction the camera is looking
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime); // Allows smoother movemet transitions for the player
+        }
 
         // Set up the animation triggers
         anim.SetBool("Grounded", playerController.isGrounded);
