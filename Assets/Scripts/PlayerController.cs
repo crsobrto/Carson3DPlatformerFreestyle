@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float speed; // Movement speed
     public float jumpForce;
     public float gravityModifier;
+
+    public Animator anim;
     //public bool isOnGround = false;
 
     private Vector3 moveDirection;
@@ -63,23 +65,27 @@ public class PlayerController : MonoBehaviour
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravityModifier * Time.deltaTime); // Apply gravity to the player's current y-position
         playerController.Move(moveDirection * Time.deltaTime); // Move the player based on moveDirection and Time.deltaTime
 
-            /*
-            if (isOnGround)
+        /*
+        if (isOnGround)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+            forwardInput = Input.GetAxis("Vertical");
+
+            transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput * -1);
+            transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                horizontalInput = Input.GetAxis("Horizontal");
-                forwardInput = Input.GetAxis("Vertical");
-
-                transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput * -1);
-                transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
-
-
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                    isOnGround = false;
-                }
+                playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                isOnGround = false;
             }
-            */
+        }
+        */
+
+        // Set up the animation triggers
+        anim.SetBool("Grounded", playerController.isGrounded);
+        anim.SetFloat("Speed_f", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
         }
 
     private void OnCollisionEnter(Collision collision)
