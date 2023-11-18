@@ -8,16 +8,19 @@ public class Pickup : MonoBehaviour
 
     public bool powerupActive = false;
 
+    public GameObject gemPickupEffect;
+    public GameObject powerupPickupEffect;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,7 +28,7 @@ public class Pickup : MonoBehaviour
         if (other.tag == "Gem")
         {
             FindObjectOfType<GameManager>().AddGems(gemValue); // Find the objects that have the GameManager attached to them
-
+            Instantiate(gemPickupEffect, transform.position, transform.rotation);
             Destroy(other.gameObject);
         }
 
@@ -33,6 +36,7 @@ public class Pickup : MonoBehaviour
         {
             powerupActive = true;
             FindObjectOfType<GameManager>().ActivatePowerup(powerupActive);
+            Instantiate(powerupPickupEffect, transform.position, transform.rotation);
             Destroy(other.gameObject);
         }
     }

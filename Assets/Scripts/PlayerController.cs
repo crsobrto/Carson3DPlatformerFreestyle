@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         // Set up the animation triggers
         anim.SetBool("Grounded", playerController.isGrounded);
         anim.SetFloat("Speed_f", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
-        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
