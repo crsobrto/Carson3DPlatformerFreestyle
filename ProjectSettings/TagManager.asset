@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Enemy
   - Powerup
+  - PlayerEyes
+  - Gem
   layers:
   - Default
   - TransparentFX
