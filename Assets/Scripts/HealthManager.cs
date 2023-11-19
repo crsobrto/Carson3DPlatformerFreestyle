@@ -11,17 +11,32 @@ public class HealthManager : MonoBehaviour
     private float invincibilityCounter; // Counts how long the player has been invincible
     private float flashCounter;
     public float flashLength = 0.1f;
+    public float respawnLength;
 
-    public PlayerController player;
+    private bool isRespawning;
+
+    private Vector3 respawnPoint;
+
+    public PlayerController playerController;
 
     public Renderer playerRenderer;
+
+    public GameObject playerGameObject;
+
+    public CharacterController charController;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerGameObject = GameObject.Find("Player");
+
+        charController = playerGameObject.GetComponent<CharacterController>();
+
         currentHealth = maxHealth; // Start the game with max health
 
-        player = FindObjectOfType<PlayerController>();
+        //player = FindObjectOfType<PlayerController>();
+
+        respawnPoint = playerController.transform.position;
     }
 
     // Update is called once per frame
@@ -53,14 +68,53 @@ public class HealthManager : MonoBehaviour
         {
             currentHealth -= damage;
 
-            player.Knockback(direction);
+            if (currentHealth <= 0)
+            {
+                Respawn();
+            }
+            else
+            {
+                playerController.Knockback(direction);
 
-            invincibilityCounter = invincibilityLength;
+                invincibilityCounter = invincibilityLength;
 
-            playerRenderer.enabled = false; // Make the player invisible
+                playerRenderer.enabled = false; // Make the player invisible
 
-            flashCounter = flashLength;
+                flashCounter = flashLength;
+            }
         }
+    }
+
+    public void Respawn()
+    {
+        if (!isRespawning)
+        {
+            
+            
+
+            StartCoroutine("RespawnCo");
+
+            
+        }
+    }
+
+    public IEnumerator RespawnCo()
+    {
+        isRespawning = true; // The player is currently respawning
+        playerController.gameObject.SetActive(false); // Remove the player from the world
+        charController.enabled = false;
+
+        yield return new WaitForSeconds(respawnLength);
+
+        isRespawning = false;
+        playerController.gameObject.SetActive(true);
+        playerController.transform.position = respawnPoint;
+        charController.enabled = true;
+        currentHealth = maxHealth;
+
+        invincibilityCounter = invincibilityLength;
+        playerRenderer.enabled = false; // Make the player invisible
+        flashCounter = flashLength;
     }
 
     public void HealPlayer(int healAmount)
