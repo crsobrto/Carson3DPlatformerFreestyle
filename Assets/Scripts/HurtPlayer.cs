@@ -22,7 +22,10 @@ public class HurtPlayer : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            FindObjectOfType<HealthManager>().HurtPlayer(damageToGive); // Apply damage to the object that has the HealthManager script applied to it
+            Vector3 hitDirection = other.transform.position - transform.position;
+            hitDirection = hitDirection.normalized; // Restricts hitDirection to not be too big
+
+            FindObjectOfType<HealthManager>().HurtPlayer(damageToGive, hitDirection); // Apply damage to the object that has the HealthManager script applied to it
         }
     }
 }

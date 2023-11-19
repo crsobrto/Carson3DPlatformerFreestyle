@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public float rotateSpeed; // How fast the player will rotate
     public float jumpForce;
     public float gravityModifier;
+    public float knockbackForce;
+    public float knockbackTime;
+    private float knockbackCounter;
 
     public GameObject playerModel;
 
@@ -48,23 +51,32 @@ public class PlayerController : MonoBehaviour
 
         // Allow the player to move on the x and z axes and jump smoothly on the y axis
         //moveDirection = new Vector3(Input.GetAxis("Horizontal") * speed, moveDirection.y, Input.GetAxis("Vertical") * speed);
-        float yStore = moveDirection.y; // Store the player's current y-position
-        moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
-        moveDirection = moveDirection.normalized * speed; // Prevents the player from gaining speed by moving diagonally
-        moveDirection.y = yStore; // Restore the player's y-position to fix gravity issues
 
-        // If the player is currently on the ground
-        if (playerController.isGrounded)
+        if (knockbackCounter <= 0)
         {
-            // If the player presses the spacebar
-            if (Input.GetButtonDown("Jump"))
+            float yStore = moveDirection.y; // Store the player's current y-position
+            moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
+            moveDirection = moveDirection.normalized * speed; // Prevents the player from gaining speed by moving diagonally
+            moveDirection.y = yStore; // Restore the player's y-position to fix gravity issues
+
+
+            // If the player is currently on the ground
+            if (playerController.isGrounded)
             {
-                moveDirection.y = jumpForce; // Make the player jump
+                // If the player presses the spacebar
+                if (Input.GetButtonDown("Jump"))
+                {
+                    moveDirection.y = jumpForce; // Make the player jump
+                }
+                else
+                {
+                    moveDirection.y = 0f; // Prevents gravity from continually building up as the player is grounded
+                }
             }
-            else
-            {
-                moveDirection.y = 0f; // Prevents gravity from continually building up as the player is grounded
-            }
+        }
+        else
+        {
+            knockbackCounter -= Time.deltaTime; // Make the knockbackCounter count down
         }
 
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravityModifier * Time.deltaTime); // Apply gravity to the player's current y-position
@@ -112,5 +124,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Collided with enemy");
         }
+    }
+
+    public void Knockback(Vector3 direction)
+    {
+        knockbackCounter = knockbackTime;
+
+        moveDirection = direction * knockbackForce;
+        moveDirection.y = knockbackForce; // The player will always be knocked up into the air
     }
 }
