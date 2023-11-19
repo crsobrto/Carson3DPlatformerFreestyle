@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
@@ -12,8 +13,12 @@ public class HealthManager : MonoBehaviour
     private float flashCounter;
     public float flashLength = 0.1f;
     public float respawnLength;
+    public float fadeSpeed;
+    public float waitForFade;
 
     private bool isRespawning;
+    private bool isFadeToBlack;
+    private bool isFadeFromBlack;
 
     private Vector3 respawnPoint;
 
@@ -22,6 +27,9 @@ public class HealthManager : MonoBehaviour
     public Renderer playerRenderer;
 
     public GameObject playerGameObject;
+    public GameObject deathEffect; // Particles that are played when the player dies
+
+    public Image blackScreen;
 
     public CharacterController charController;
 
@@ -60,6 +68,26 @@ public class HealthManager : MonoBehaviour
                 playerRenderer.enabled = true;
             }
         }
+
+        // Fade screen to black
+        if (isFadeToBlack)
+        {
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
+            if (blackScreen.color.a == 1f)
+            {
+                isFadeToBlack = false;
+            }
+        }
+
+        // Fade screen from black
+        if (isFadeFromBlack)
+        {
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
+            if (blackScreen.color.a == 0f)
+            {
+                isFadeFromBlack = false;
+            }
+        }
     }
 
     public void HurtPlayer(int damage, Vector3 direction)
@@ -89,12 +117,7 @@ public class HealthManager : MonoBehaviour
     {
         if (!isRespawning)
         {
-            
-            
-
             StartCoroutine("RespawnCo");
-
-            
         }
     }
 
@@ -102,9 +125,17 @@ public class HealthManager : MonoBehaviour
     {
         isRespawning = true; // The player is currently respawning
         playerController.gameObject.SetActive(false); // Remove the player from the world
+        Instantiate(deathEffect, playerController.transform.position, playerController.transform.rotation); // Play the player deathEffect
         charController.enabled = false;
 
         yield return new WaitForSeconds(respawnLength);
+
+        isFadeToBlack = true;
+
+        yield return new WaitForSeconds(waitForFade);
+
+        isFadeToBlack = false;
+        isFadeFromBlack = true;
 
         isRespawning = false;
         playerController.gameObject.SetActive(true);
