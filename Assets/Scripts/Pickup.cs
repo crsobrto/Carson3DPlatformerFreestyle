@@ -6,7 +6,7 @@ public class Pickup : MonoBehaviour
 {
     public int gemValue;
 
-    public bool powerupActive = false;
+    //public bool powerupActive = false;
 
     public GameObject gemPickupEffect;
     public GameObject powerupPickupEffect;
@@ -20,11 +20,12 @@ public class Pickup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Picking up gems
         if (other.tag == "Gem")
         {
             FindObjectOfType<GameManager>().AddGems(gemValue); // Find the objects that have the GameManager attached to them
@@ -32,10 +33,11 @@ public class Pickup : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+        // Picking up powerups
         else if (other.gameObject.CompareTag("Powerup"))
         {
-            powerupActive = true;
-            FindObjectOfType<GameManager>().ActivatePowerup(powerupActive);
+            //powerupActive = true;
+            FindObjectOfType<GameManager>().ActivatePowerup();
             Instantiate(powerupPickupEffect, transform.position, transform.rotation);
             Destroy(other.gameObject);
         }

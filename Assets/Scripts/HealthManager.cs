@@ -29,6 +29,8 @@ public class HealthManager : MonoBehaviour
     public GameObject playerGameObject;
     public GameObject deathEffect; // Particles that are played when the player dies
 
+    //public GameManager gameManager;
+
     public Image blackScreen;
 
     public CharacterController charController;
@@ -41,6 +43,7 @@ public class HealthManager : MonoBehaviour
         charController = playerGameObject.GetComponent<CharacterController>();
 
         currentHealth = maxHealth; // Start the game with max health
+        //gameManager.healthText.text = "Health: " + currentHealth;
 
         //player = FindObjectOfType<PlayerController>();
 
@@ -50,6 +53,8 @@ public class HealthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FindObjectOfType<GameManager>().healthText.text = "Health: " + currentHealth; // Display the player's currentHealth
+
         if (invincibilityCounter > 0)
         {
             invincibilityCounter -= Time.deltaTime;
@@ -95,6 +100,7 @@ public class HealthManager : MonoBehaviour
         if (invincibilityCounter <= 0)
         {
             currentHealth -= damage;
+            //gameManager.healthText.text = "Health: " + currentHealth;
 
             if (currentHealth <= 0)
             {
