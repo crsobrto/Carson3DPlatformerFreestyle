@@ -158,4 +158,10 @@ public class HealthManager : MonoBehaviour
             currentHealth = maxHealth;
         }
     }
+
+    // Used to set checkpoints
+    public void SetSpawnPoint(Vector3 newPosition)
+    {
+        respawnPoint = newPosition;
+    }
 }
