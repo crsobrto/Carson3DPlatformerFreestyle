@@ -6,8 +6,6 @@ public class Pickup : MonoBehaviour
 {
     public int gemValue;
 
-    //public bool powerupActive = false;
-
     public GameObject gemPickupEffect;
     public GameObject powerupPickupEffect;
 
@@ -36,10 +34,8 @@ public class Pickup : MonoBehaviour
         // Picking up powerups
         else if (other.gameObject.CompareTag("Powerup"))
         {
-            //powerupActive = true;
-            FindObjectOfType<GameManager>().ActivatePowerup();
+            FindObjectOfType<GameManager>().ActivatePowerup(other);
             Instantiate(powerupPickupEffect, transform.position, transform.rotation);
-            Destroy(other.gameObject);
         }
     }
 }
