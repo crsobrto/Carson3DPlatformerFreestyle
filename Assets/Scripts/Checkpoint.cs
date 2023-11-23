@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Checkpoint : MonoBehaviour
 {
+    //public float checkpointTextCounter = FindObjectOfType<GameManager>().checkpointTextCounter;
+
     public HealthManager healthManager;
 
     public Renderer theRenderer;
@@ -20,7 +24,7 @@ public class Checkpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void CheckpointOn()
@@ -32,6 +36,9 @@ public class Checkpoint : MonoBehaviour
         }
 
         theRenderer.material = checkpointOn;
+
+        FindObjectOfType<GameManager>().checkpointText.text = "Checkpoint activated!"; // Tell the user that the checkpoint has been activated
+        FindObjectOfType<GameManager>().StartCheckpointTextCountdown(); // Start the countdown
     }
 
     public void CheckpointOff()

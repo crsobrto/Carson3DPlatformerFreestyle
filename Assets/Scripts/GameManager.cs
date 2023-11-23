@@ -11,14 +11,14 @@ public class GameManager : MonoBehaviour
 
     public float powerupLength;
     public float powerupCounter;
+    public float checkpointTextLength;
 
     public bool powerupActive = false;
 
     public TextMeshProUGUI gemText;
     public TextMeshProUGUI powerupText;
     public TextMeshProUGUI healthText;
-
-    
+    public TextMeshProUGUI checkpointText;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +54,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PowerupCountdownRoutine(powerupCollider)); // Start the countdown
     }
 
+    public void StartCheckpointTextCountdown()
+    {
+        StartCoroutine(CheckpointTextCountdownRoutine());
+    }
+
     IEnumerator PowerupCountdownRoutine(Collider powerupCollider)
     {
         yield return new WaitForSeconds(powerupLength + 1);
@@ -64,5 +69,12 @@ public class GameManager : MonoBehaviour
 
         powerupCollider.GetComponent<Renderer>().enabled = true; // Make the powerup visible again
         powerupCollider.enabled = true; // Make the powerup interactable again
+    }
+
+    public IEnumerator CheckpointTextCountdownRoutine()
+    {
+        yield return new WaitForSeconds(checkpointTextLength);
+
+        FindObjectOfType<GameManager>().checkpointText.text = ""; // Remove the checkpointText from the screen
     }
 }
