@@ -29,8 +29,6 @@ public class HealthManager : MonoBehaviour
     public GameObject playerGameObject;
     public GameObject deathEffect; // Particles that are played when the player dies
 
-    //public GameManager gameManager;
-
     public Image blackScreen;
 
     public CharacterController charController;

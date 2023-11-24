@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class SceneSwitch : MonoBehaviour
 {
-    //public bool isTransitioning; // Is the player transitioning to another scene?
-
     public float transitionLength;
 
     private SceneSwitchFadeInOut fade;
@@ -23,15 +21,8 @@ public class SceneSwitch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (portalGameObject.tag == "Left Portal" && other.tag == "Player")
+        if (other.tag == "Player")
         {
-            //Debug.Log("Entered left portal.");
-            StartCoroutine(ChangeScene(portalGameObject));
-        }
-
-        else if (portalGameObject.tag == "Right Portal" && other.tag == "Player")
-        {
-            //Debug.Log("Entered right portal.");
             StartCoroutine(ChangeScene(portalGameObject));
         }
     }
@@ -47,7 +38,6 @@ public class SceneSwitch : MonoBehaviour
         }
         else if (portal.tag == "Right Portal")
         {
-            //Debug.Log("IEnumerator for Right Portal was called.");
             fade.FadeInRightPortal();
             yield return new WaitForSeconds(transitionLength);
 
