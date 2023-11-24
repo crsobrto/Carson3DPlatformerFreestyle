@@ -7,8 +7,6 @@ using UnityEditor.Experimental.GraphView;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
     public int currentGems; // Keeps track of how many gems the player has
 
     public float powerupLength;
@@ -25,14 +23,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        
     }
 
     // Update is called once per frame
