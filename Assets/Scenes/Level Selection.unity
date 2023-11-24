@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 46568846}
   - component: {fileID: 46568847}
   - component: {fileID: 46568848}
+  - component: {fileID: 46568849}
   m_Layer: 0
   m_Name: Portal Left
   m_TagString: Left Portal
@@ -192,15 +193,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05dc512498b6b8f4388a5b34076a5864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionLength: 1
+  portalGameObject: {fileID: 46568845}
+--- !u!114 &46568849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46568845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa30b517ffeb312408be0d62a9541799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   fadeSpeed: 2
-  fadeLength: 0.1
-  waitForFade: 1
-  transitionLength: 2
-  isTransitioning: 0
   isFadeInLeftPortal: 0
   isFadeOutLeftPortal: 0
-  portalGameObject: {fileID: 46568845}
+  isFadeInRightPortal: 0
+  isFadeOutRightPortal: 0
   leftPortalScreen: {fileID: 708042229}
+  rightPortalScreen: {fileID: 1609103768}
 --- !u!1 &106867697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,6 +1572,81 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5613296805256641431, guid: 749984ef5ae975f4ebd0402897c3d5e4, type: 3}
   m_PrefabInstance: {fileID: 661289402820296430}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1609103766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1609103767}
+  - component: {fileID: 1609103769}
+  - component: {fileID: 1609103768}
+  m_Layer: 5
+  m_Name: Right Portal Screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1609103767
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609103766}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2040173629}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_SizeDelta: {x: 14.443726, y: 13.827301}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1609103768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609103766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.18431373, g: 0.21960784, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1609103769
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609103766}
+  m_CullTransparentMesh: 1
 --- !u!1 &1691093525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,6 +1656,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1691093526}
+  - component: {fileID: 1691093529}
+  - component: {fileID: 1691093528}
+  - component: {fileID: 1691093527}
   m_Layer: 0
   m_Name: Portal Right
   m_TagString: Right Portal
@@ -1593,6 +1684,60 @@ Transform:
   - {fileID: 229020985}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1691093527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691093525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa30b517ffeb312408be0d62a9541799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeSpeed: 2
+  isFadeInLeftPortal: 0
+  isFadeOutLeftPortal: 0
+  isFadeInRightPortal: 0
+  isFadeOutRightPortal: 0
+  leftPortalScreen: {fileID: 708042229}
+  rightPortalScreen: {fileID: 1609103768}
+--- !u!114 &1691093528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691093525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05dc512498b6b8f4388a5b34076a5864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionLength: 1
+  portalGameObject: {fileID: 1691093525}
+--- !u!65 &1691093529
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691093525}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.8658438, y: 5.3105845, z: 0.347723}
+  m_Center: {x: 2.5044265, y: -1.2104175, z: 2.3744707}
 --- !u!1 &1797202387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,6 +2269,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4275347830807762901, guid: d6a963f58ad36404c9cef9ab6de9eb96, type: 3}
       insertIndex: -1
       addedObject: {fileID: 708042228}
+    - targetCorrespondingSourceObject: {fileID: 4275347830807762901, guid: d6a963f58ad36404c9cef9ab6de9eb96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1609103767}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6a963f58ad36404c9cef9ab6de9eb96, type: 3}
 --- !u!1001 &7023128310637044561
@@ -2200,6 +2348,6 @@ SceneRoots:
   - {fileID: 2026956451}
   - {fileID: 46568846}
   - {fileID: 1691093526}
-  - {fileID: 508282586}
   - {fileID: 220865640}
+  - {fileID: 508282586}
   - {fileID: 377003475}
