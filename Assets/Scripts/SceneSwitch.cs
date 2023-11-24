@@ -51,7 +51,7 @@ public class SceneSwitch : MonoBehaviour
             fade.FadeInRightPortal();
             yield return new WaitForSeconds(transitionLength);
 
-            SceneManager.LoadScene(1); // Load Level 1
+            SceneManager.LoadScene(2); // Load Level 2
         }
     }
 }
