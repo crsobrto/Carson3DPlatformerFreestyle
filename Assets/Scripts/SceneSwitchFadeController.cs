@@ -11,7 +11,17 @@ public class SceneSwitchFadeController : MonoBehaviour
     {
         fade = FindObjectOfType<SceneSwitchFadeInOut>();
 
-        fade.FadeOutLeftPortal();
+        if (fade.isFadeInLeftPortal)
+        {
+            fade.leftPortalScreen.color = new Color(fade.leftPortalScreen.color.r, fade.leftPortalScreen.color.g, fade.leftPortalScreen.color.b, 255f);
+            fade.FadeOutLeftPortal();
+        }
+        else if (fade.isFadeInRightPortal)
+        {
+            fade.rightPortalScreen.color = new Color(fade.rightPortalScreen.color.r, fade.rightPortalScreen.color.g, fade.rightPortalScreen.color.b, 255f);
+            fade.FadeOutRightPortal();
+        }
+
     }
 
     // Update is called once per frame

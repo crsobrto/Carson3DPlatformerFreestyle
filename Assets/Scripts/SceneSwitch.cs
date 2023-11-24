@@ -25,13 +25,13 @@ public class SceneSwitch : MonoBehaviour
     {
         if (portalGameObject.tag == "Left Portal" && other.tag == "Player")
         {
-            Debug.Log("Entered left portal.");
+            //Debug.Log("Entered left portal.");
             StartCoroutine(ChangeScene(portalGameObject));
         }
 
         else if (portalGameObject.tag == "Right Portal" && other.tag == "Player")
         {
-            Debug.Log("Entered right portal.");
+            //Debug.Log("Entered right portal.");
             StartCoroutine(ChangeScene(portalGameObject));
         }
     }
