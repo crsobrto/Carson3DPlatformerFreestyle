@@ -4,33 +4,30 @@ using UnityEngine;
 
 public class MoveRightToLeft : MonoBehaviour
 {
-    public float speed = 5.0f;
-    public float moveLength; // How long the object should move in a direction
-    public float moveCounter;
+    public float speed;
+    public float xLeftBound;
+    public float xRightBound;
+
+    private Vector3 direction = Vector3.left;
 
     // Start is called before the first frame update
     void Start()
     {
-        moveCounter = moveLength;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        moveCounter -= Time.deltaTime; // Count down the moveCounter
+        transform.Translate(direction * speed * Time.deltaTime);
 
-        if (moveCounter > 0f)
+        if (transform.position.x <= xRightBound)
         {
-            transform.Translate(Vector3.left * Time.deltaTime * speed);
+            direction = Vector3.left;
         }
-        else
+        else if (transform.position.x >= xLeftBound)
         {
-            transform.Translate(Vector3.right * Time.deltaTime * speed);
-
-            if ((int)moveCounter == (int)-moveLength)
-            {
-                moveCounter = moveLength;
-            }
+            direction = Vector3.right;
         }
     }
 }
