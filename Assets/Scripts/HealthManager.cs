@@ -9,12 +9,12 @@ public class HealthManager : MonoBehaviour
     public int currentHealth;
 
     public float invincibilityLength; // How long the player will be invincible
-    private float invincibilityCounter; // Counts how long the player has been invincible
-    private float flashCounter;
     public float flashLength = 0.1f;
     public float respawnLength;
     public float fadeSpeed;
     public float waitForFade;
+    private float invincibilityCounter; // Counts how long the player has been invincible
+    private float flashCounter;
 
     private bool isRespawning;
     private bool isFadeToBlack;
@@ -77,7 +77,8 @@ public class HealthManager : MonoBehaviour
         // Fade screen to black
         if (isFadeToBlack)
         {
-            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b,
+                Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
             if (blackScreen.color.a == 1f)
             {
                 isFadeToBlack = false;
@@ -87,7 +88,8 @@ public class HealthManager : MonoBehaviour
         // Fade screen from black
         if (isFadeFromBlack)
         {
-            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b,
+                Mathf.MoveTowards(blackScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
             if (blackScreen.color.a == 0f)
             {
                 isFadeFromBlack = false;

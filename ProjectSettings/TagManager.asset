@@ -10,6 +10,8 @@ TagManager:
   - PlayerEyes
   - Gem
   - Moving Box
+  - Left Portal
+  - Right Portal
   layers:
   - Default
   - TransparentFX
