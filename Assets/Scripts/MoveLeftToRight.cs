@@ -21,11 +21,11 @@ public class MoveLeftToRight : MonoBehaviour
     {
         transform.Translate(direction * speed * Time.deltaTime);
 
-        if (transform.position.x <= xRightBound)
+        if (transform.localPosition.x <= xRightBound)
         {
             direction = Vector3.left;
         }
-        else if (transform.position.x >= xLeftBound)
+        else if (transform.localPosition.x >= xLeftBound)
         {
             direction = Vector3.right;
         }

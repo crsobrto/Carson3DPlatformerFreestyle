@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +29,7 @@ public class HealthManager : MonoBehaviour
 
     public GameObject playerGameObject;
     public GameObject deathEffect; // Particles that are played when the player dies
+    public GameObject healEffect;
 
     public Image blackScreen;
 
@@ -119,6 +121,20 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    public void HealPlayer(int healAmount)
+    {
+        currentHealth += healAmount; // Give health to the player
+
+        Instantiate(healEffect, new Vector3(playerController.transform.position.x, playerController.transform.position.y - 0.5f, playerController.transform.position.z),
+            playerController.transform.rotation); // Play the player healEffect
+
+        // Prevents the player from healing over the max health possible
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
+
     public void Respawn()
     {
         if (!isRespawning)
@@ -152,17 +168,6 @@ public class HealthManager : MonoBehaviour
         invincibilityCounter = invincibilityLength;
         playerRenderer.enabled = false; // Make the player invisible
         flashCounter = flashLength;
-    }
-
-    public void HealPlayer(int healAmount)
-    {
-        currentHealth += healAmount;
-
-        // Prevents the player from healing over the max health possible
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
     }
 
     // Used to set checkpoints

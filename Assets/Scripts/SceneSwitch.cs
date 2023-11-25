@@ -43,5 +43,12 @@ public class SceneSwitch : MonoBehaviour
 
             SceneManager.LoadScene(2); // Load Level 2
         }
+        else if (portal.tag == "Main Portal")
+        {
+            fade.FadeInMainPortal();
+            yield return new WaitForSeconds(transitionLength);
+
+            SceneManager.LoadScene(0); // Load Level Selection
+        }
     }
 }

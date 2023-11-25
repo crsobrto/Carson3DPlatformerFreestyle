@@ -12,6 +12,7 @@ TagManager:
   - Moving Box
   - Left Portal
   - Right Portal
+  - Main Portal
   layers:
   - Default
   - TransparentFX

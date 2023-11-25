@@ -37,5 +37,7 @@ public class Pickup : MonoBehaviour
             FindObjectOfType<GameManager>().ActivatePowerup(other);
             Instantiate(powerupPickupEffect, transform.position, transform.rotation);
         }
+
+
     }
 }
