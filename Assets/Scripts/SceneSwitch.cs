@@ -34,21 +34,21 @@ public class SceneSwitch : MonoBehaviour
             fade.FadeInLeftPortal();
             yield return new WaitForSeconds(transitionLength);
 
-            SceneManager.LoadScene(1); // Load Level 1
+            SceneManager.LoadScene(2); // Load Level 1
         }
         else if (portal.tag == "Right Portal")
         {
             fade.FadeInRightPortal();
             yield return new WaitForSeconds(transitionLength);
 
-            SceneManager.LoadScene(2); // Load Level 2
+            SceneManager.LoadScene(3); // Load Level 2
         }
         else if (portal.tag == "Main Portal")
         {
             fade.FadeInMainPortal();
             yield return new WaitForSeconds(transitionLength);
 
-            SceneManager.LoadScene(0); // Load Level Selection
+            SceneManager.LoadScene(1); // Load Level Selection
         }
     }
 }
