@@ -32,6 +32,7 @@ public class SceneSwitch : MonoBehaviour
         if (portal.tag == "Left Portal")
         {
             fade.FadeInLeftPortal();
+
             yield return new WaitForSeconds(transitionLength);
 
             SceneManager.LoadScene(2); // Load Level 1
@@ -39,6 +40,7 @@ public class SceneSwitch : MonoBehaviour
         else if (portal.tag == "Right Portal")
         {
             fade.FadeInRightPortal();
+
             yield return new WaitForSeconds(transitionLength);
 
             SceneManager.LoadScene(3); // Load Level 2
@@ -46,9 +48,19 @@ public class SceneSwitch : MonoBehaviour
         else if (portal.tag == "Main Portal")
         {
             fade.FadeInMainPortal();
+
             yield return new WaitForSeconds(transitionLength);
 
             SceneManager.LoadScene(1); // Load Level Selection
+        }
+
+        else if (portal.tag == "Center Portal")
+        {
+            
+            yield return new WaitForSeconds(transitionLength);
+
+            Cursor.lockState = CursorLockMode.Confined; // Unlock the cursor so the player can use it in the Main Meu
+            SceneManager.LoadScene(0); // Load Main Menu
         }
     }
 }

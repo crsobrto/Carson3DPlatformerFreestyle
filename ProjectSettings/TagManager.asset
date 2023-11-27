@@ -13,6 +13,7 @@ TagManager:
   - Left Portal
   - Right Portal
   - Main Portal
+  - Center Portal
   layers:
   - Default
   - TransparentFX
