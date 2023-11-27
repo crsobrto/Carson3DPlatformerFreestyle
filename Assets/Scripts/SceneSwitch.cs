@@ -23,11 +23,11 @@ public class SceneSwitch : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            StartCoroutine(ChangeScene(portalGameObject));
+            StartCoroutine(ChangeSceneRoutine(portalGameObject));
         }
     }
 
-    IEnumerator ChangeScene(GameObject portal)
+    IEnumerator ChangeSceneRoutine(GameObject portal)
     {
         if (portal.tag == "Left Portal")
         {

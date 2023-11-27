@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public float powerupCounter;
     public float checkpointTextLength;
 
-    public bool powerupActive = false;
+    private bool powerupActive = false;
 
     public TextMeshProUGUI gemText;
     public TextMeshProUGUI powerupText;
