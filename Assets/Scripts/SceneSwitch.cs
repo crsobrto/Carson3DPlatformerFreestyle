@@ -56,6 +56,7 @@ public class SceneSwitch : MonoBehaviour
 
         else if (portal.tag == "Center Portal")
         {
+            fade.FadeInExitPortal();
             
             yield return new WaitForSeconds(transitionLength);
 

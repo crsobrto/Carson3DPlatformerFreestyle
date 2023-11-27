@@ -13,10 +13,13 @@ public class SceneSwitchFadeInOut : MonoBehaviour
     public bool isFadeOutRightPortal = false;
     public bool isFadeInMainPortal = false;
     public bool isFadeOutMainPortal = false;
+    public bool isFadeInExitPortal = false;
+    public bool isFadeOutExitPortal = false;
 
     public Image mainPortalScreen;
     public Image leftPortalScreen;
     public Image rightPortalScreen;
+    public Image exitPortalScreen;
     
 
     // Start is called before the first frame update
@@ -99,6 +102,28 @@ public class SceneSwitchFadeInOut : MonoBehaviour
                 isFadeOutMainPortal = false;
             }
         }
+
+        else if (isFadeInExitPortal)
+        {
+            exitPortalScreen.color = new Color(exitPortalScreen.color.r, exitPortalScreen.color.g, exitPortalScreen.color.b,
+                Mathf.MoveTowards(exitPortalScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
+
+            if (exitPortalScreen.color.a == 1f)
+            {
+                isFadeInExitPortal = false;
+            }
+        }
+
+        else if (isFadeOutExitPortal)
+        {
+            exitPortalScreen.color = new Color(exitPortalScreen.color.r, exitPortalScreen.color.g, exitPortalScreen.color.b,
+                Mathf.MoveTowards(exitPortalScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
+
+            if (exitPortalScreen.color.a == 0f)
+            {
+                isFadeOutExitPortal = false;
+            }
+        }
     }
 
     public void FadeInLeftPortal()
@@ -114,5 +139,10 @@ public class SceneSwitchFadeInOut : MonoBehaviour
     public void FadeInMainPortal()
     {
         isFadeInMainPortal = true;
+    }
+
+    public void FadeInExitPortal()
+    {
+        isFadeInExitPortal = true;
     }
 }
