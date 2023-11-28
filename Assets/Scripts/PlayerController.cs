@@ -13,9 +13,11 @@ public class PlayerController : MonoBehaviour
     public float gravityModifier;
     public float knockbackForce;
     public float knockbackTime;
+    public float offGroundTime;
     //private float verticalVelocity;
-
     private float knockbackCounter;
+
+    public bool isGrounded;
 
     //private float groundedCounter;
 
@@ -36,6 +38,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        /*
+        offGroundTime += Time.deltaTime;
+
+        if (offGroundTime < 0.2f)
+        {
+            isGrounded = false;
+        }
+        else
+        {
+            isGrounded = true;
+            offGroundTime = 0f;
+        }
+        */
+
         if (knockbackCounter <= 0)
         {
             float yStore = moveDirection.y; // Store the player's current y-position
