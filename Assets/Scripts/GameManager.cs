@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public float checkpointTextLength;
 
     private bool powerupActive = false;
+    public bool foundAllGems = false;
 
     public TextMeshProUGUI gemText;
     public TextMeshProUGUI powerupText;
@@ -39,7 +40,15 @@ public class GameManager : MonoBehaviour
     public void AddGems(int gemsToAdd)
     {
         currentGems += gemsToAdd;
-        gemText.text = "Gems: " + currentGems;
+
+        if (currentGems < FindObjectOfType<Gem>().gems.Length)
+        {
+            gemText.text = "Gems: " + currentGems;
+        }
+        else
+        {
+            gemText.text = "Found all " + FindObjectOfType<Gem>().gems.Length + " gems in this level!!";
+        }
     }
 
     public void ActivatePowerup(Collider powerupCollider)
