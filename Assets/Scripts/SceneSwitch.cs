@@ -13,7 +13,7 @@ public class SceneSwitch : MonoBehaviour
 
     public GameObject portalGameObject;
 
-    private AudioSource playerAudio;
+    private AudioSource soundControllerAudioSource;
 
     private AudioClip portalSound;
 
@@ -22,7 +22,7 @@ public class SceneSwitch : MonoBehaviour
     {
         fade = FindObjectOfType<SceneSwitchFadeInOut>();
 
-        //playerAudio = FindObjectOfType<PlayerController>().GetComponent<AudioSource>();
+        soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
 
         portalSound = FindObjectOfType<SoundController>().portalSound;
     }
@@ -32,7 +32,7 @@ public class SceneSwitch : MonoBehaviour
         if (other.tag == "Player")
         {
             StartCoroutine(ChangeSceneRoutine(portalGameObject));
-            playerAudio.PlayOneShot(portalSound, 1.0f);
+            soundControllerAudioSource.PlayOneShot(portalSound, 1.0f);
         }
     }
 

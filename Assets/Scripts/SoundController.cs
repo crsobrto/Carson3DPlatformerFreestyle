@@ -7,6 +7,7 @@ public class SoundController : MonoBehaviour
     private AudioSource audioSource;
 
     public AudioClip checkpointActivatedSound;
+    public AudioClip foundAllGemsSound;
     public AudioClip gemPickupSound;
     public AudioClip playerDamagedSound;
     public AudioClip playerDeathSound;

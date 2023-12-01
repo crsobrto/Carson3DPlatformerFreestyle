@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
+using System.Runtime.CompilerServices;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,9 +30,17 @@ public class GameManager : MonoBehaviour
 
     private FootstepController footstepController;
 
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip foundAllGemsSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        soundControllerAudioSource = GameObject.Find("SoundController").GetComponent<AudioSource>();
+
+        foundAllGemsSound = FindObjectOfType<SoundController>().foundAllGemsSound;
+
         charController = FindObjectOfType<PlayerController>().GetComponent<CharacterController>();
 
         playerController = FindObjectOfType<PlayerController>();
@@ -70,7 +79,9 @@ public void AddGems(int gemsToAdd)
         }
         else
         {
+            foundAllGems = true;
             gemText.text = "Found all " + FindObjectOfType<Gem>().gems.Length + " gems in this level!!";
+            soundControllerAudioSource.PlayOneShot(foundAllGemsSound, 1.0f); // Play the foundAllGemsSound
         }
     }
 

@@ -2818,7 +2818,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 369417257102706047, guid: b1fbc373e09b42741a93ccd81a5543c6, type: 3}
       propertyPath: maxHealth
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 369417257102706047, guid: b1fbc373e09b42741a93ccd81a5543c6, type: 3}
       propertyPath: deathSound
@@ -9611,9 +9611,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481bb4318c595ab49b8919099ef3b3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkpointActivatedSound: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
+  foundAllGemsSound: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
   gemPickupSound: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
   playerDamagedSound: {fileID: 8300000, guid: 80e397195ea2940b69ee7bdbded856a5, type: 3}
   playerDeathSound: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
+  playerJumpSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   portalSound: {fileID: 8300000, guid: 4e1ff8faed12a475eba9be0e46072269, type: 3}
   powerupPickupSound: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
 --- !u!4 &2058354137

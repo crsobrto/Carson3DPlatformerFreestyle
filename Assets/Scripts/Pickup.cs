@@ -30,7 +30,13 @@ public class Pickup : MonoBehaviour
         {
             FindObjectOfType<GameManager>().AddGems(gemValue); // Find the objects that have the GameManager attached to them
             Instantiate(gemPickupEffect, transform.position, transform.rotation);
-            soundControllerAudioSource.PlayOneShot(gemPickupSound, 1.0f); // Play the gemPickupSound
+
+            // If the player has not found all the gems yet
+            if (!FindObjectOfType<GameManager>().foundAllGems)
+            {
+                soundControllerAudioSource.PlayOneShot(gemPickupSound, 1.0f); // Play the gemPickupSound
+            }
+
             Destroy(other.gameObject);
         }
 
