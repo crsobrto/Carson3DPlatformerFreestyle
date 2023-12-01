@@ -11,6 +11,7 @@ public class SoundController : MonoBehaviour
     public AudioClip gemPickupSound;
     public AudioClip playerDamagedSound;
     public AudioClip playerDeathSound;
+    public AudioClip playerHealSound;
     public AudioClip playerJumpSound;
     public AudioClip portalSound;
     public AudioClip powerupPickupSound;

@@ -9616,6 +9616,7 @@ MonoBehaviour:
   gemPickupSound: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
   playerDamagedSound: {fileID: 8300000, guid: 80e397195ea2940b69ee7bdbded856a5, type: 3}
   playerDeathSound: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
+  playerHealSound: {fileID: 8300000, guid: a0ca8964c08d54c5dbebf245bdc474ca, type: 3}
   playerJumpSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   portalSound: {fileID: 8300000, guid: 4e1ff8faed12a475eba9be0e46072269, type: 3}
   powerupPickupSound: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}

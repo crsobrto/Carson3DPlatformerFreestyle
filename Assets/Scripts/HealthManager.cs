@@ -38,6 +38,7 @@ public class HealthManager : MonoBehaviour
     private AudioSource soundControllerAudioSource;
 
     private AudioClip playerDeathSound;
+    private AudioClip playerHealSound;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,7 @@ public class HealthManager : MonoBehaviour
         soundControllerAudioSource = GameObject.Find("SoundController").GetComponent<AudioSource>();
 
         playerDeathSound = FindObjectOfType<SoundController>().playerDeathSound;
+        playerHealSound = FindObjectOfType<SoundController>().playerHealSound;
 
         currentHealth = maxHealth; // Start the game with max health
         //gameManager.healthText.text = "Health: " + currentHealth;
@@ -139,6 +141,7 @@ public class HealthManager : MonoBehaviour
 
         Instantiate(healEffect, new Vector3(playerController.transform.position.x, playerController.transform.position.y - 0.5f, playerController.transform.position.z),
             playerController.transform.rotation); // Play the player healEffect
+        soundControllerAudioSource.PlayOneShot(playerHealSound, 1.0f); // Play the playerHealSound
 
         // Prevents the player from healing over the max health possible
         if (currentHealth > maxHealth)
