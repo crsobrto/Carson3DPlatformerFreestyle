@@ -26,7 +26,14 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
 
     public Transform pivot;
-    //public bool isOnGround = false;
+
+    private AudioSource playerAudio;
+
+    public AudioClip gemPickupSound;
+    public AudioClip powerupPickupSound;
+    public AudioClip portalSound;
+    public AudioClip snowSound;
+
 
     private Vector3 moveDirection;
 
@@ -34,6 +41,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<CharacterController>();
+
+        playerAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -94,26 +103,19 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed_f", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        /*
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            //isOnGround = true;
-        }
-        */
-
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Collided with enemy");
-        }
-    }
-
     public void Knockback(Vector3 direction)
     {
         knockbackCounter = knockbackTime;
 
         moveDirection = direction * knockbackForce;
         moveDirection.y = knockbackForce; // The player will always be knocked up into the air
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Ground")
+        {
+            playerAudio.PlayOneShot(snowSound, 1.0f);
+        }
     }
 }

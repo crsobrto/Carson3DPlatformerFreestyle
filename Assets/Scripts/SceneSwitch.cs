@@ -13,10 +13,18 @@ public class SceneSwitch : MonoBehaviour
 
     public GameObject portalGameObject;
 
+    private AudioSource playerAudio;
+
+    private AudioClip portalSound;
+
     // Start is called before the first frame update
     void Start()
     {
         fade = FindObjectOfType<SceneSwitchFadeInOut>();
+
+        playerAudio = FindObjectOfType<PlayerController>().GetComponent<AudioSource>();
+
+        portalSound = FindObjectOfType<PlayerController>().portalSound;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,6 +32,7 @@ public class SceneSwitch : MonoBehaviour
         if (other.tag == "Player")
         {
             StartCoroutine(ChangeSceneRoutine(portalGameObject));
+            playerAudio.PlayOneShot(portalSound, 1.0f);
         }
     }
 
