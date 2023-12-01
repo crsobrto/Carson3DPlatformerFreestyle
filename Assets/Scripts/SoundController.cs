@@ -8,6 +8,7 @@ public class SoundController : MonoBehaviour
 
     //public AudioClip[] snowFootstepSounds;
     public AudioClip gemPickupSound;
+    public AudioClip playerDamagedSound;
     public AudioClip playerDeathSound;
     public AudioClip portalSound;
     public AudioClip powerupPickupSound;

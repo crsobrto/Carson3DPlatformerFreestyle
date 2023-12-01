@@ -16,14 +16,10 @@ public class PlayerController : MonoBehaviour
     public float knockbackForce;
     public float knockbackTime;
     public float offGroundTime;
-    //private float verticalVelocity;
     private float knockbackCounter;
 
-    //public bool isGrounded;
     public bool characterControllerActive = true;
     public bool isWalking = false;
-
-    //private float groundedCounter;
 
     public GameObject playerModel;
 
@@ -33,17 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource playerAudio;
 
-    /*
-    public AudioClip gemPickupSound;
-    public AudioClip powerupPickupSound;
-    public AudioClip portalSound;
-    public AudioClip snowSound;
-    */
-
-    //public AudioClip deathSound;
-
-
     private Vector3 moveDirection;
+
 
     // Start is called before the first frame update
     void Start()

@@ -6,10 +6,16 @@ public class HurtPlayer : MonoBehaviour
 {
     public int damageToGive = 1;
 
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip playerDamagedSound;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
+
+        playerDamagedSound = FindObjectOfType<SoundController>().playerDamagedSound;
     }
 
     // Update is called once per frame
@@ -26,6 +32,11 @@ public class HurtPlayer : MonoBehaviour
             hitDirection = hitDirection.normalized; // Restricts hitDirection to not be too big
 
             FindObjectOfType<HealthManager>().HurtPlayer(damageToGive, hitDirection); // Apply damage to the object that has the HealthManager script applied to it
+
+            if (FindObjectOfType<HealthManager>().currentHealth > 0)
+            {
+                soundControllerAudioSource.PlayOneShot(playerDamagedSound, 1.0f);
+            }
         }
     }
 }
