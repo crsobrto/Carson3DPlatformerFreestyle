@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     public CharacterController playerController;
 
+    private FootstepController footstepController;
+
     public float speed; // Movement speed
     public float rotateSpeed; // How fast the player will rotate
     public float jumpForce;
@@ -17,7 +19,8 @@ public class PlayerController : MonoBehaviour
     //private float verticalVelocity;
     private float knockbackCounter;
 
-    public bool isGrounded;
+    //public bool isGrounded;
+    public bool isWalking = false;
 
     //private float groundedCounter;
 
@@ -29,10 +32,14 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource playerAudio;
 
+    /*
     public AudioClip gemPickupSound;
     public AudioClip powerupPickupSound;
     public AudioClip portalSound;
     public AudioClip snowSound;
+    */
+
+    //public AudioClip deathSound;
 
 
     private Vector3 moveDirection;
@@ -42,7 +49,9 @@ public class PlayerController : MonoBehaviour
     {
         playerController = GetComponent<CharacterController>();
 
-        playerAudio = GetComponent<AudioSource>();
+        footstepController = GameObject.Find("FootstepManager").GetComponent<FootstepController>();
+
+        //playerAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -96,6 +105,20 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime); // Allows smoother movemet transitions for the player
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
+        }
+
+        if (isWalking && playerController.isGrounded)
+        {
+            footstepController.StartWalking();
+        }
+        else
+        {
+            footstepController.StopWalking();
         }
 
         // Set up the animation triggers
@@ -109,13 +132,5 @@ public class PlayerController : MonoBehaviour
 
         moveDirection = direction * knockbackForce;
         moveDirection.y = knockbackForce; // The player will always be knocked up into the air
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Ground")
-        {
-            playerAudio.PlayOneShot(snowSound, 1.0f);
-        }
     }
 }

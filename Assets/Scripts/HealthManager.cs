@@ -35,12 +35,22 @@ public class HealthManager : MonoBehaviour
 
     public CharacterController charController;
 
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip playerDeathSound;
+
     // Start is called before the first frame update
     void Start()
     {
         playerGameObject = GameObject.Find("Player");
 
         charController = playerGameObject.GetComponent<CharacterController>();
+
+        //playerAudio = FindObjectOfType<PlayerController>().GetComponent<AudioSource>();
+
+        soundControllerAudioSource = GameObject.Find("SoundController").GetComponent<AudioSource>();
+
+        playerDeathSound = FindObjectOfType<SoundController>().playerDeathSound;
 
         currentHealth = maxHealth; // Start the game with max health
         //gameManager.healthText.text = "Health: " + currentHealth;
@@ -139,15 +149,22 @@ public class HealthManager : MonoBehaviour
     {
         if (!isRespawning)
         {
+            //healthManagerAudio.PlayOneShot(deathSound, 1.0f); // Play the deathSound
             StartCoroutine("RespawnCo");
         }
     }
 
     public IEnumerator RespawnCo()
     {
+        FindObjectOfType<PlayerController>().isWalking = false; // The player is not walking when they die
+
         isRespawning = true; // The player is currently respawning
+
         playerController.gameObject.SetActive(false); // Remove the player from the world
+
         Instantiate(deathEffect, playerController.transform.position, playerController.transform.rotation); // Play the player deathEffect
+        soundControllerAudioSource.PlayOneShot(playerDeathSound, 1.0f);
+
         charController.enabled = false;
 
         yield return new WaitForSeconds(respawnLength);

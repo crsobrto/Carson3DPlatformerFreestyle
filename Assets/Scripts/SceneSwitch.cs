@@ -22,9 +22,9 @@ public class SceneSwitch : MonoBehaviour
     {
         fade = FindObjectOfType<SceneSwitchFadeInOut>();
 
-        playerAudio = FindObjectOfType<PlayerController>().GetComponent<AudioSource>();
+        //playerAudio = FindObjectOfType<PlayerController>().GetComponent<AudioSource>();
 
-        portalSound = FindObjectOfType<PlayerController>().portalSound;
+        portalSound = FindObjectOfType<SoundController>().portalSound;
     }
 
     private void OnTriggerEnter(Collider other)
