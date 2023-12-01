@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
 
     public Transform pivot;
 
-    private AudioSource playerAudio;
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip playerJumpSound;
 
     private Vector3 moveDirection;
 
@@ -37,27 +39,13 @@ public class PlayerController : MonoBehaviour
     {
         playerController = GetComponent<CharacterController>();
 
-        //footstepController = GameObject.Find("FootstepManager").GetComponent<FootstepController>();
+        soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
 
-        //playerAudio = GetComponent<AudioSource>();
+        playerJumpSound = FindObjectOfType<SoundController>().playerJumpSound;
     }
 
     void Update()
     {
-        /*
-        offGroundTime += Time.deltaTime;
-
-        if (offGroundTime < 0.2f)
-        {
-            isGrounded = false;
-        }
-        else
-        {
-            isGrounded = true;
-            offGroundTime = 0f;
-        }
-        */
-
         if (knockbackCounter <= 0)
         {
             float yStore = moveDirection.y; // Store the player's current y-position
@@ -72,6 +60,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetButtonDown("Jump"))
                 {
                     moveDirection.y = jumpForce; // Make the player jump
+                    soundControllerAudioSource.PlayOneShot(playerJumpSound, 0.5f); // Play the playerJumpSound at a lower volume
                 }
                 else
                 {

@@ -6,10 +6,11 @@ public class SoundController : MonoBehaviour
 {
     private AudioSource audioSource;
 
-    //public AudioClip[] snowFootstepSounds;
+    public AudioClip checkpointActivatedSound;
     public AudioClip gemPickupSound;
     public AudioClip playerDamagedSound;
     public AudioClip playerDeathSound;
+    public AudioClip playerJumpSound;
     public AudioClip portalSound;
     public AudioClip powerupPickupSound;
 

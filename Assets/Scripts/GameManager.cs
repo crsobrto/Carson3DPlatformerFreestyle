@@ -44,16 +44,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("GameManager isRespawning = " + healthManager.isRespawning);
-
         if (playerController.isWalking && charController.isGrounded && !healthManager.isRespawning)
         {
-            //Debug.Log("Player is walking.");
             footstepController.StartWalking();
         }
         else
         {
-            //Debug.Log("Player is not walking.");
             footstepController.StopWalking();
         }
 
@@ -62,11 +58,6 @@ public class GameManager : MonoBehaviour
             powerupCounter -= Time.deltaTime;
             powerupText.text = "Powerup active!!: " + (int)powerupCounter; // Display the powerupCounter to the player
         }
-    }
-
-    public void IsWalking()
-    {
-        
     }
 
 public void AddGems(int gemsToAdd)

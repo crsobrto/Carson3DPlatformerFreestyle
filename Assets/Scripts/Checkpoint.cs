@@ -15,10 +15,18 @@ public class Checkpoint : MonoBehaviour
     public Material checkpointOff;
     public Material checkpointOn;
 
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip checkpointActivatedSound;
+
     // Start is called before the first frame update
     void Start()
     {
         healthManager = FindObjectOfType<HealthManager>();
+
+        soundControllerAudioSource = GameObject.Find("SoundController").GetComponent<AudioSource>();
+
+        checkpointActivatedSound = FindObjectOfType<SoundController>().checkpointActivatedSound;
     }
 
     // Update is called once per frame
@@ -52,6 +60,7 @@ public class Checkpoint : MonoBehaviour
         {
             healthManager.SetSpawnPoint(transform.position); // Set the new spawn point to this checkpoint's location
             CheckpointOn();
+            soundControllerAudioSource.PlayOneShot(checkpointActivatedSound, 1.0f); // Play the checkpointActivatedSound
         }
     }
 }
