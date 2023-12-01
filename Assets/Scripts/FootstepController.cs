@@ -8,8 +8,8 @@ public class FootstepController : MonoBehaviour
 
     public AudioClip[] snowFootstepSounds;
 
-    public float minTimeBetweenFootsteps = 0.3f;
-    public float maxTimeBetweenFootsteps = 0.6f;
+    public float minTimeBetweenFootsteps = 0.28f;
+    public float maxTimeBetweenFootsteps = 0.28f;
     private float timeSinceLastFootstep;
 
     public bool isWalking;

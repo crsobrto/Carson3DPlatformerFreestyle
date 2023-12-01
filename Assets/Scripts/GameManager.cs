@@ -21,15 +21,42 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI checkpointText;
 
+    public CharacterController charController;
+
+    private PlayerController playerController;
+
+    private HealthManager healthManager;
+
+    private FootstepController footstepController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        charController = FindObjectOfType<PlayerController>().GetComponent<CharacterController>();
+
+        playerController = FindObjectOfType<PlayerController>();
+
+        healthManager = FindObjectOfType<HealthManager>();
+
+        footstepController = FindObjectOfType<FootstepController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("GameManager isRespawning = " + healthManager.isRespawning);
+
+        if (playerController.isWalking && charController.isGrounded && !healthManager.isRespawning)
+        {
+            //Debug.Log("Player is walking.");
+            footstepController.StartWalking();
+        }
+        else
+        {
+            //Debug.Log("Player is not walking.");
+            footstepController.StopWalking();
+        }
+
         if (powerupActive == true)
         {
             powerupCounter -= Time.deltaTime;
@@ -37,7 +64,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddGems(int gemsToAdd)
+    public void IsWalking()
+    {
+        
+    }
+
+public void AddGems(int gemsToAdd)
     {
         currentGems += gemsToAdd;
 

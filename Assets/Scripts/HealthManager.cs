@@ -17,7 +17,7 @@ public class HealthManager : MonoBehaviour
     private float invincibilityCounter; // Counts how long the player has been invincible
     private float flashCounter;
 
-    private bool isRespawning;
+    public bool isRespawning;
     private bool isFadeToBlack;
     private bool isFadeFromBlack;
 
@@ -63,6 +63,8 @@ public class HealthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("isRespawning = " + isRespawning);
+
         FindObjectOfType<GameManager>().healthText.text = "Health: " + currentHealth; // Display the player's currentHealth
 
         if (invincibilityCounter > 0)
@@ -161,6 +163,7 @@ public class HealthManager : MonoBehaviour
         isRespawning = true; // The player is currently respawning
 
         playerController.gameObject.SetActive(false); // Remove the player from the world
+        //FindObjectOfType<PlayerController>().characterControllerActive = false;
 
         Instantiate(deathEffect, playerController.transform.position, playerController.transform.rotation); // Play the player deathEffect
         soundControllerAudioSource.PlayOneShot(playerDeathSound, 1.0f);

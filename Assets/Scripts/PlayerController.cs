@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public CharacterController playerController;
 
-    private FootstepController footstepController;
+    //private FootstepController footstepController;
 
     public float speed; // Movement speed
     public float rotateSpeed; // How fast the player will rotate
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float knockbackCounter;
 
     //public bool isGrounded;
+    public bool characterControllerActive = true;
     public bool isWalking = false;
 
     //private float groundedCounter;
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         playerController = GetComponent<CharacterController>();
 
-        footstepController = GameObject.Find("FootstepManager").GetComponent<FootstepController>();
+        //footstepController = GameObject.Find("FootstepManager").GetComponent<FootstepController>();
 
         //playerAudio = GetComponent<AudioSource>();
     }
@@ -110,15 +111,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             isWalking = false;
-        }
-
-        if (isWalking && playerController.isGrounded)
-        {
-            footstepController.StartWalking();
-        }
-        else
-        {
-            footstepController.StopWalking();
         }
 
         // Set up the animation triggers
