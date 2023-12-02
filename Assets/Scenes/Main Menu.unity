@@ -758,7 +758,7 @@ RectTransform:
   m_GameObject: {fileID: 1009646515}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8900222, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1231889076}
@@ -788,7 +788,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3D Platformer Freestyle
+  m_text: Carson's 3D Platformer Freestyle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f0bfb73449e8943d0a0d1efb2290352e, type: 2}
   m_sharedMaterial: {fileID: 21976234817437650, guid: f0bfb73449e8943d0a0d1efb2290352e, type: 2}
