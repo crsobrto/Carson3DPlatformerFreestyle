@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     public float playerRotationSpeed;
 
     public float playerJumpSpeed;
-    public float jumpForce;
     public float jumpButtonGracePeriod; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
     private float? jumpButtonPressedTime; // '?' means that this variable can either have a value or be null (in other words, this variable is "nullable")
 
