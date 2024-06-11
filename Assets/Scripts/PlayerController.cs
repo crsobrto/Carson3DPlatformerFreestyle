@@ -2,103 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
     public CharacterController playerController;
 
-    //private FootstepController footstepController;
+    private Vector3 movementDirection;
 
-    public float speed; // Movement speed
-    public float rotateSpeed; // How fast the player will rotate
+    public float playerSpeed;
     public float jumpForce;
-    public float gravityModifier;
-    public float knockbackForce;
     public float knockbackTime;
-    public float offGroundTime;
+    public float knockbackForce;
     private float knockbackCounter;
 
-    public bool characterControllerActive = true;
-    public bool isWalking = false;
 
-    public GameObject playerModel;
+    public bool isWalking;
 
-    public Animator anim;
-
-    public Transform pivot;
-
-    private AudioSource soundControllerAudioSource;
-
-    private AudioClip playerJumpSound;
-
-    private Vector3 moveDirection;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        playerController = GetComponent<CharacterController>();
+        float horizontalInput = Input.GetAxis("Horizontal"); // Get the player's horizontal movement input
+        float verticalInput = Input.GetAxis("Vertical"); // Get the player's vertical movement input
 
-        soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
-
-        playerJumpSound = FindObjectOfType<SoundController>().playerJumpSound;
-    }
-
-    void Update()
-    {
-        if (knockbackCounter <= 0)
+        if (horizontalInput != 0 || verticalInput != 0)
         {
-            float yStore = moveDirection.y; // Store the player's current y-position
-            moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
-            moveDirection = moveDirection.normalized * speed; // Prevents the player from gaining speed by moving diagonally
-            moveDirection.y = yStore; // Restore the player's y-position to fix gravity issues
-
-            // If the player is currently on the ground
-            if (playerController.isGrounded)
-            {
-                // If the player presses the spacebar
-                if (Input.GetButtonDown("Jump"))
-                {
-                    moveDirection.y = jumpForce; // Make the player jump
-                    soundControllerAudioSource.PlayOneShot(playerJumpSound, 0.5f); // Play the playerJumpSound at a lower volume
-                }
-                else
-                {
-                    moveDirection.y = 0f; // Prevents gravity from continually building up as the player is grounded
-                }
-            }
-        }
-        else
-        {
-            knockbackCounter -= Time.deltaTime; // Make the knockbackCounter count down
-        }
-
-        moveDirection.y = moveDirection.y + (Physics.gravity.y * gravityModifier * Time.deltaTime); // Apply gravity to the player's current y-position
-        playerController.Move(moveDirection * Time.deltaTime); // Move the player based on moveDirection and Time.deltaTime
-
-        // Rotate the player in different directions based on which direction the camera is looking
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
-            Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
-            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime); // Allows smoother movemet transitions for the player
             isWalking = true;
-        }
-        else
+        } else
         {
             isWalking = false;
         }
 
-        // Set up the animation triggers
-        anim.SetBool("Grounded", playerController.isGrounded);
-        anim.SetFloat("Speed_f", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+        movementDirection = new Vector3(horizontalInput, 0, verticalInput); // Use horizontalInput and verticalInput to move the player
+        movementDirection.Normalize(); // Prevents faster player movement from moving diagonally
+
+        transform.Translate(movementDirection * playerSpeed * Time.deltaTime); // Change the player's position based on movementDirection
     }
 
     public void Knockback(Vector3 direction)
     {
         knockbackCounter = knockbackTime;
 
-        moveDirection = direction * knockbackForce;
-        moveDirection.y = knockbackForce; // The player will always be knocked up into the air
+        movementDirection = direction * knockbackForce;
+        movementDirection.y = knockbackForce; // The player will always be knocked up into the air
     }
 }
