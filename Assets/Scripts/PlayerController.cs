@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    public CharacterController playerController;
+    private CharacterController characterController;
 
     private Vector3 movementDirection;
 
@@ -21,16 +21,27 @@ public class PlayerController : MonoBehaviour
 
     public bool isWalking;
 
+    void Start()
+    {
+        characterController = GetComponent<CharacterController>(); // Retrieve the characterController component
+    }
+
     private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal"); // Get the player's horizontal movement input
         float verticalInput = Input.GetAxis("Vertical"); // Get the player's vertical movement input
+
         movementDirection = new Vector3(horizontalInput, 0, verticalInput); // Use horizontalInput and verticalInput to move the player
+
+        // Stores the magnitude of the player's movement input from gamepads
+        // Mathf.Clamp01 ensures magnitude is never above 1; magnitude will now always range from 0 to 1
+        float magnitude = Mathf.Clamp01(movementDirection.magnitude)*playerSpeed;
+        
         movementDirection.Normalize(); // Prevents faster player movement from moving diagonally
 
-        // Change the player's position based on movementDirection
-        // Space.World means the player is moving relative to the game world
-        transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
+        // Move the player based on movementDirection
+        // Time.deltaTime is built into SimpleMove
+        characterController.SimpleMove(movementDirection * magnitude);
 
         // Among other things, rotate the player to face the direction they're currently moving
         if (movementDirection != Vector3.zero)
