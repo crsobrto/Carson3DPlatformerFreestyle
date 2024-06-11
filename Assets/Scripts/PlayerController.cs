@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float? lastGroundedTime;
 
     public bool isWalking;
+    public bool isOnGround;
 
     void Start()
     {
@@ -53,6 +54,12 @@ public class PlayerController : MonoBehaviour
         if (characterController.isGrounded)
         {
             lastGroundedTime = Time.time; // Time.time is the number of seconds since the game has started
+
+            isOnGround = true;
+        }
+        else
+        {
+            isOnGround = false;
         }
 
         if (Input.GetButtonDown("Jump"))
@@ -84,7 +91,9 @@ public class PlayerController : MonoBehaviour
 
         // Move the player based on movementDirection
         Vector3 velocity = movementDirection * magnitude;
-        velocity.y = ySpeed;
+        velocity = AdjustVelocityToSlope(velocity); // Check if the player is moving along a downward slope
+        velocity.y += ySpeed;
+
         characterController.Move(velocity * Time.deltaTime);
 
         // Among other things, rotate the player to face the direction they're currently moving
@@ -104,6 +113,32 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
         }
+    } // Update()
+
+    private Vector3 AdjustVelocityToSlope(Vector3 velocity)
+    {
+        // Detect the slope of the ground by casting a Ray
+        // Source of the Ray = player's position = transform.position; direction of the Ray = down = Vector3.down
+        var ray = new Ray(transform.position, Vector3.down);
+
+        // Cast the ray and check for collisions
+        // If the Ray collides with anything, hitInfo will be populated and will provide the direction the slope is facing
+        // The Ray's maximum distance is 0.2f so that the Ray will only detect collisions close to the player
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 1.0f))
+        {
+            Debug.Log("Inside if statement");
+
+            var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal); // Create a rotation to rotate from the up direction to the direction the slope is facing
+            var adjustedVelocity = slopeRotation * velocity; // Adjust the player's velocity to align with the slope
+
+            // Checks if a downward slope is detected
+            if (adjustedVelocity.y < 0)
+            {
+                return adjustedVelocity;
+            }
+        }
+
+        return velocity; // Return the original velocity if no downward slope is detected
     }
 
     public void Knockback(Vector3 direction)
