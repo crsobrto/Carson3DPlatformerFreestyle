@@ -12,11 +12,15 @@ public class PlayerController : MonoBehaviour
 
     public float playerSpeed;
     public float playerRotationSpeed;
+    public float playerJumpSpeed;
 
     public float jumpForce;
     public float knockbackTime;
     public float knockbackForce;
     private float knockbackCounter;
+
+    private float ySpeed;
+    private float originalStepOffset;
 
 
     public bool isWalking;
@@ -24,6 +28,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>(); // Retrieve the characterController component
+
+        originalStepOffset = characterController.stepOffset; // Store the original Step Offset
     }
 
     private void Update()
@@ -35,13 +41,35 @@ public class PlayerController : MonoBehaviour
 
         // Stores the magnitude of the player's movement input from gamepads
         // Mathf.Clamp01 ensures magnitude is never above 1; magnitude will now always range from 0 to 1
-        float magnitude = Mathf.Clamp01(movementDirection.magnitude)*playerSpeed;
-        
+        float magnitude = Mathf.Clamp01(movementDirection.magnitude) * playerSpeed;
+
         movementDirection.Normalize(); // Prevents faster player movement from moving diagonally
 
+        ySpeed += Physics.gravity.y * Time.deltaTime; // Apply gravity to the player's y-axis movement
+
+        if (characterController.isGrounded)
+        {
+            characterController.stepOffset = originalStepOffset;
+
+            // Prevents gravity from building up while the player is on the ground
+            // -0.5f is used instead of 0f because 0f causes ySpeed to fluctuate in the positive direction
+            ySpeed = -0.5f;
+
+            // Checking if the player wants to jump
+            if (Input.GetButtonDown("Jump"))
+            {
+                ySpeed = playerJumpSpeed;
+            }
+        }
+        else
+        {
+            characterController.stepOffset = 0; // Prevents movement glitches when jumping into objects
+        }
+
         // Move the player based on movementDirection
-        // Time.deltaTime is built into SimpleMove
-        characterController.SimpleMove(movementDirection * magnitude);
+        Vector3 velocity = movementDirection * magnitude;
+        velocity.y = ySpeed;
+        characterController.Move(velocity * Time.deltaTime);
 
         // Among other things, rotate the player to face the direction they're currently moving
         if (movementDirection != Vector3.zero)
