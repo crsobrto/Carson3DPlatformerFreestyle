@@ -12,16 +12,19 @@ public class PlayerController : MonoBehaviour
 
     public float playerSpeed;
     public float playerRotationSpeed;
-    public float playerJumpSpeed;
 
+    public float playerJumpSpeed;
     public float jumpForce;
+    public float jumpButtonGracePeriod; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
+    private float? jumpButtonPressedTime; // '?' means that this variable can either have a value or be null (in other words, this variable is "nullable")
+
     public float knockbackTime;
     public float knockbackForce;
     private float knockbackCounter;
 
     private float ySpeed;
     private float originalStepOffset;
-
+    private float? lastGroundedTime;
 
     public bool isWalking;
 
@@ -49,16 +52,29 @@ public class PlayerController : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            lastGroundedTime = Time.time; // Time.time is the number of seconds since the game has started
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpButtonPressedTime = Time.time;
+        }
+
+        // Checks if the player was last on the ground within the grace period
+        if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
+        {
             characterController.stepOffset = originalStepOffset;
 
             // Prevents gravity from building up while the player is on the ground
             // -0.5f is used instead of 0f because 0f causes ySpeed to fluctuate in the positive direction
             ySpeed = -0.5f;
 
-            // Checking if the player wants to jump
-            if (Input.GetButtonDown("Jump"))
+            // Checking if the player last jumped within the grace period
+            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
                 ySpeed = playerJumpSpeed;
+                jumpButtonPressedTime = null; // Reset
+                lastGroundedTime = null; // Reset
             }
         }
         else
