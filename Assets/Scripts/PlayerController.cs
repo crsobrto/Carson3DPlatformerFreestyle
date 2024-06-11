@@ -8,6 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
 
+    public Animator anim;
+
+    private AudioSource soundControllerAudioSource;
+
+    private AudioClip playerJumpSound;
+
     private Vector3 movementDirection;
 
     public float playerSpeed;
@@ -17,6 +23,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float jumpButtonGracePeriod; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
     private float? jumpButtonPressedTime; // '?' means that this variable can either have a value or be null (in other words, this variable is "nullable")
+
+    public float gravityModifier;
 
     public float knockbackTime;
     public float knockbackForce;
@@ -32,6 +40,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>(); // Retrieve the characterController component
+
+        soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
+
+        playerJumpSound = FindObjectOfType<SoundController>().playerJumpSound;
 
         originalStepOffset = characterController.stepOffset; // Store the original Step Offset
     }
@@ -49,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
         movementDirection.Normalize(); // Prevents faster player movement from moving diagonally
 
-        ySpeed += Physics.gravity.y * Time.deltaTime; // Apply gravity to the player's y-axis movement
+        ySpeed += Physics.gravity.y * gravityModifier * Time.deltaTime; // Apply gravity to the player's y-axis movement
 
         if (characterController.isGrounded)
         {
@@ -80,6 +92,8 @@ public class PlayerController : MonoBehaviour
             if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
                 ySpeed = playerJumpSpeed;
+                soundControllerAudioSource.PlayOneShot(playerJumpSound, 0.5f); // Play the playerJumpSound at a lower volume
+
                 jumpButtonPressedTime = null; // Reset
                 lastGroundedTime = null; // Reset
             }
@@ -113,6 +127,11 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
         }
+
+        // Set up the animation triggers
+        anim.SetBool("Grounded", characterController.isGrounded);
+        anim.SetFloat("Speed_f", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+
     } // Update()
 
     private Vector3 AdjustVelocityToSlope(Vector3 velocity)
