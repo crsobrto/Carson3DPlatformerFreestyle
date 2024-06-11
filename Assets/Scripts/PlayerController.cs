@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movementDirection;
 
     public float playerSpeed;
+    public float playerRotationSpeed;
+
     public float jumpForce;
     public float knockbackTime;
     public float knockbackForce;
@@ -23,19 +25,30 @@ public class PlayerController : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal"); // Get the player's horizontal movement input
         float verticalInput = Input.GetAxis("Vertical"); // Get the player's vertical movement input
-
-        if (horizontalInput != 0 || verticalInput != 0)
-        {
-            isWalking = true;
-        } else
-        {
-            isWalking = false;
-        }
-
         movementDirection = new Vector3(horizontalInput, 0, verticalInput); // Use horizontalInput and verticalInput to move the player
         movementDirection.Normalize(); // Prevents faster player movement from moving diagonally
 
-        transform.Translate(movementDirection * playerSpeed * Time.deltaTime); // Change the player's position based on movementDirection
+        // Change the player's position based on movementDirection
+        // Space.World means the player is moving relative to the game world
+        transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
+
+        // Among other things, rotate the player to face the direction they're currently moving
+        if (movementDirection != Vector3.zero)
+        {
+            isWalking = true;
+
+            // Retrieve the needed rotation
+            // Forward direction = -movementDirection; up direction = y-axis = Vector3.up
+            // movementDirection will make the player face opposite of the correct direction, so -movementDirection is used
+            Quaternion toRotation = Quaternion.LookRotation(-movementDirection, Vector3.up);
+
+            // Now rotate the player
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, playerRotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            isWalking = false;
+        }
     }
 
     public void Knockback(Vector3 direction)
