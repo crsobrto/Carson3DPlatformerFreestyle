@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
 
+    public GameObject playerModel;
+
+    public Transform pivot;
+
     public Animator anim;
 
     private AudioSource soundControllerAudioSource;
@@ -19,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     public float playerRotationSpeed;
 
-    public float playerJumpSpeed;
+    public float playerJumpForce;
     public float jumpButtonGracePeriod; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
     private float? jumpButtonPressedTime; // '?' means that this variable can either have a value or be null (in other words, this variable is "nullable")
 
@@ -41,8 +45,8 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>(); // Retrieve the characterController component
 
         soundControllerAudioSource = FindObjectOfType<SoundController>().GetComponent<AudioSource>();
-
         playerJumpSound = FindObjectOfType<SoundController>().playerJumpSound;
+        pivot = FindObjectOfType<FollowPlayer>().pivot;
 
         originalStepOffset = characterController.stepOffset; // Store the original Step Offset
     }
@@ -52,7 +56,7 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal"); // Get the player's horizontal movement input
         float verticalInput = Input.GetAxis("Vertical"); // Get the player's vertical movement input
 
-        movementDirection = new Vector3(horizontalInput, 0, verticalInput); // Use horizontalInput and verticalInput to move the player
+        movementDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput); // Move the player based on which direction the camera is facing
 
         // Stores the magnitude of the player's movement input from gamepads
         // Mathf.Clamp01 ensures magnitude is never above 1; magnitude will now always range from 0 to 1
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour
             // Checking if the player last jumped within the grace period
             if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
-                ySpeed = playerJumpSpeed;
+                ySpeed = playerJumpForce;
                 soundControllerAudioSource.PlayOneShot(playerJumpSound, 0.5f); // Play the playerJumpSound at a lower volume
 
                 jumpButtonPressedTime = null; // Reset
@@ -109,18 +113,16 @@ public class PlayerController : MonoBehaviour
 
         characterController.Move(velocity * Time.deltaTime);
 
-        // Among other things, rotate the player to face the direction they're currently moving
+        // Rotate the player to face the direction they're currently moving
         if (movementDirection != Vector3.zero)
         {
+            Debug.Log("Inside if(movementDirection)");
+
+            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(movementDirection.x, 0f, movementDirection.z));
+            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, playerRotationSpeed * Time.deltaTime); // Allows smoother movemet transitions for the player
+            
             isWalking = true;
-
-            // Retrieve the needed rotation
-            // Forward direction = -movementDirection; up direction = y-axis = Vector3.up
-            // movementDirection will make the player face opposite of the correct direction, so -movementDirection is used
-            Quaternion toRotation = Quaternion.LookRotation(-movementDirection, Vector3.up);
-
-            // Now rotate the player
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, playerRotationSpeed * Time.deltaTime);
         }
         else
         {
@@ -144,7 +146,7 @@ public class PlayerController : MonoBehaviour
         // The Ray's maximum distance is 0.2f so that the Ray will only detect collisions close to the player
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 1.0f))
         {
-            Debug.Log("Inside if statement");
+            //Debug.Log("Inside if statement");
 
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal); // Create a rotation to rotate from the up direction to the direction the slope is facing
             var adjustedVelocity = slopeRotation * velocity; // Adjust the player's velocity to align with the slope

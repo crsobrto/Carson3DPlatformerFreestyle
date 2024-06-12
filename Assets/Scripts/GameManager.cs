@@ -89,7 +89,7 @@ public void AddGems(int gemsToAdd)
     {
         powerupActive = true; // Enable the powerup
         powerupCounter = powerupLength + 1;
-        FindObjectOfType<PlayerController>().playerJumpSpeed *= 3; // Increase the player's playerJumpSpeed
+        FindObjectOfType<PlayerController>().playerJumpForce *= 3; // Increase the player's playerJumpForce
 
         powerupCollider.GetComponent<Renderer>().enabled = false; // Make the powerup invisible
         powerupCollider.enabled = false; // Make the powerup uninteractable
@@ -108,7 +108,7 @@ public void AddGems(int gemsToAdd)
 
         powerupActive = false;
         powerupText.text = "";
-        FindObjectOfType<PlayerController>().playerJumpSpeed /= 3;
+        FindObjectOfType<PlayerController>().playerJumpForce /= 3;
 
         powerupCollider.GetComponent<Renderer>().enabled = true; // Make the powerup visible again
         powerupCollider.enabled = true; // Make the powerup interactable again

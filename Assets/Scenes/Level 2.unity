@@ -1656,11 +1656,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3482198216258332256, guid: 749984ef5ae975f4ebd0402897c3d5e4, type: 3}
       propertyPath: gravityModifier
-      value: 1.5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3482198216258332256, guid: 749984ef5ae975f4ebd0402897c3d5e4, type: 3}
+      propertyPath: playerJumpForce
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3482198216258332256, guid: 749984ef5ae975f4ebd0402897c3d5e4, type: 3}
       propertyPath: playerJumpSpeed
-      value: 7
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3482198216258332256, guid: 749984ef5ae975f4ebd0402897c3d5e4, type: 3}
       propertyPath: powerupPickupSound
