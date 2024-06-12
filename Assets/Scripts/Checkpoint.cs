@@ -19,6 +19,10 @@ public class Checkpoint : MonoBehaviour
 
     private AudioClip checkpointActivatedSound;
 
+    public bool checkpointActivated = false;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,35 +33,49 @@ public class Checkpoint : MonoBehaviour
         checkpointActivatedSound = FindObjectOfType<SoundController>().checkpointActivatedSound;
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
 
     }
 
+
+
     public void CheckpointOn()
     {
+
         Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
         foreach (Checkpoint cp in checkpoints)
         {
             cp.CheckpointOff();
         }
 
+
         theRenderer.material = checkpointOn;
+        checkpointActivated = true;
 
         FindObjectOfType<GameManager>().checkpointText.text = "Checkpoint activated!"; // Tell the user that the checkpoint has been activated
         FindObjectOfType<GameManager>().StartCheckpointTextCountdown(); // Start the countdown
     }
 
+
+
     public void CheckpointOff()
     {
         theRenderer.material = checkpointOff;
+        checkpointActivated = false;
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player")) // Equivalent to "other.tag == "Player"
+        if (other.tag.Equals("Player") && !checkpointActivated) //&& theRenderer.material != checkpointOn) // Equivalent to "other.tag == "Player"
         {
+            Debug.Log(theRenderer.material);
+
             healthManager.SetSpawnPoint(transform.position); // Set the new spawn point to this checkpoint's location
             CheckpointOn();
             soundControllerAudioSource.PlayOneShot(checkpointActivatedSound, 1.0f); // Play the checkpointActivatedSound
