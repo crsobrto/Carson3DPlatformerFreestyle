@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public bool isWalking;
     public bool isOnGround;
 
+
+
     void Start()
     {
         characterController = GetComponent<CharacterController>(); // Retrieve the characterController component
@@ -49,7 +51,9 @@ public class PlayerController : MonoBehaviour
         pivot = FindObjectOfType<FollowPlayer>().pivot;
 
         originalStepOffset = characterController.stepOffset; // Store the original Step Offset
-    }
+    } // Start()
+
+
 
     private void Update()
     {
@@ -116,8 +120,6 @@ public class PlayerController : MonoBehaviour
         // Rotate the player to face the direction they're currently moving
         if (movementDirection != Vector3.zero)
         {
-            Debug.Log("Inside if(movementDirection)");
-
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(movementDirection.x, 0f, movementDirection.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, playerRotationSpeed * Time.deltaTime); // Allows smoother movemet transitions for the player
@@ -135,6 +137,8 @@ public class PlayerController : MonoBehaviour
 
     } // Update()
 
+
+
     private Vector3 AdjustVelocityToSlope(Vector3 velocity)
     {
         // Detect the slope of the ground by casting a Ray
@@ -146,8 +150,6 @@ public class PlayerController : MonoBehaviour
         // The Ray's maximum distance is 0.2f so that the Ray will only detect collisions close to the player
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 1.0f))
         {
-            //Debug.Log("Inside if statement");
-
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal); // Create a rotation to rotate from the up direction to the direction the slope is facing
             var adjustedVelocity = slopeRotation * velocity; // Adjust the player's velocity to align with the slope
 
@@ -159,7 +161,9 @@ public class PlayerController : MonoBehaviour
         }
 
         return velocity; // Return the original velocity if no downward slope is detected
-    }
+    } // AdjustVelocityToSlope()
+
+
 
     public void Knockback(Vector3 direction)
     {
@@ -167,5 +171,5 @@ public class PlayerController : MonoBehaviour
 
         movementDirection = direction * knockbackForce;
         movementDirection.y = knockbackForce; // The player will always be knocked up into the air
-    }
+    } // Knockback()
 }
