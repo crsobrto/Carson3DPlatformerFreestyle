@@ -69,13 +69,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
 public void AddGems(int gemsToAdd)
     {
         currentGems += gemsToAdd;
 
         if (currentGems < FindObjectOfType<Gem>().gems.Length)
         {
-            gemText.text = "Gems: " + currentGems;
+            gemText.text = "    : " + currentGems;
         }
         else
         {
@@ -84,6 +86,8 @@ public void AddGems(int gemsToAdd)
             soundControllerAudioSource.PlayOneShot(foundAllGemsSound, 1.0f); // Play the foundAllGemsSound
         }
     }
+
+
 
     public void ActivatePowerup(Collider powerupCollider)
     {
@@ -97,10 +101,14 @@ public void AddGems(int gemsToAdd)
         StartCoroutine(PowerupCountdownRoutine(powerupCollider)); // Start the countdown
     }
 
+
+
     public void StartCheckpointTextCountdown()
     {
         StartCoroutine(CheckpointTextCountdownRoutine());
     }
+
+
 
     IEnumerator PowerupCountdownRoutine(Collider powerupCollider)
     {
@@ -113,6 +121,8 @@ public void AddGems(int gemsToAdd)
         powerupCollider.GetComponent<Renderer>().enabled = true; // Make the powerup visible again
         powerupCollider.enabled = true; // Make the powerup interactable again
     }
+
+
 
     public IEnumerator CheckpointTextCountdownRoutine()
     {

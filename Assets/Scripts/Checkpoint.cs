@@ -74,8 +74,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.tag.Equals("Player") && !checkpointActivated) //&& theRenderer.material != checkpointOn) // Equivalent to "other.tag == "Player"
         {
-            Debug.Log(theRenderer.material);
-
             healthManager.SetSpawnPoint(transform.position); // Set the new spawn point to this checkpoint's location
             CheckpointOn();
             soundControllerAudioSource.PlayOneShot(checkpointActivatedSound, 1.0f); // Play the checkpointActivatedSound

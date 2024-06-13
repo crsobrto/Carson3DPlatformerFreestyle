@@ -40,6 +40,8 @@ public class HealthManager : MonoBehaviour
     private AudioClip playerDeathSound;
     private AudioClip playerHealSound;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,12 +64,12 @@ public class HealthManager : MonoBehaviour
         respawnPoint = playerController.transform.position;
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("isRespawning = " + isRespawning);
-
-        FindObjectOfType<GameManager>().healthText.text = "Health: " + currentHealth; // Display the player's currentHealth
+        FindObjectOfType<GameManager>().healthText.text = ": " + currentHealth + "%"; // Display the player's currentHealth
 
         if (invincibilityCounter > 0)
         {
@@ -111,6 +113,8 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
+
     public void HurtPlayer(int damage, Vector3 direction)
     {
         if (invincibilityCounter <= 0)
@@ -135,6 +139,8 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
+
     public void HealPlayer(int healAmount)
     {
         currentHealth += healAmount; // Give health to the player
@@ -150,6 +156,8 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
+
     public void Respawn()
     {
         if (!isRespawning)
@@ -158,6 +166,8 @@ public class HealthManager : MonoBehaviour
             StartCoroutine("RespawnCo");
         }
     }
+
+
 
     public IEnumerator RespawnCo()
     {
@@ -192,6 +202,8 @@ public class HealthManager : MonoBehaviour
         playerRenderer.enabled = false; // Make the player invisible
         flashCounter = flashLength;
     }
+
+
 
     // Used to set checkpoints
     public void SetSpawnPoint(Vector3 newPosition)
