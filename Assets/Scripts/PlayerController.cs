@@ -20,17 +20,17 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 movementDirection;
 
-    public float playerSpeed;
-    public float playerRotationSpeed;
+    public float playerSpeed = 10.0f;
+    public float playerRotationSpeed = 720.0f;
 
-    public float playerJumpForce;
-    public float jumpButtonGracePeriod; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
+    public float playerJumpForce = 12.0f;
+    public float jumpButtonGracePeriod = 0.2f; // Gives the player a short grace period to jump so that they don't have to press the jump button at the perfect time to jump
     private float? jumpButtonPressedTime; // '?' means that this variable can either have a value or be null (in other words, this variable is "nullable")
 
-    public float gravityModifier;
+    public float gravityModifier = 2.0f;
 
-    public float knockbackTime;
-    public float knockbackForce;
+    public float knockbackTime = 0.25f;
+    public float knockbackForce = 15.0f;
     private float knockbackCounter;
 
     private float ySpeed;
